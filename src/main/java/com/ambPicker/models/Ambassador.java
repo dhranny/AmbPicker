@@ -1,3 +1,5 @@
+
+
 public class Ambassador {
 	private String name;
 	private int noOfUse;
