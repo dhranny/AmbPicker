@@ -1,6 +1,8 @@
+
+g
 import java.io.InputStream;
 import java.util.Scanner;
-public class DataSource {
+public class DataSource implements DataSource{
 
 	InputStream inputStream;
 	Output output;

@@ -1,16 +1,14 @@
-import java.util.ArrayList;
+package com.ambPicker.business;
+
+import com.ambPicker.models.*;
+
+
 public class Picker {
-	private ArrayList<Ambassador> options;
-	private int maxOccurence;
-	Picker(){
-		options = new ArrayList<Ambassador>();
-	}
 	
-	public void newOption(Ambassador option) {
-		options.add(option);
-	}
-	public void setMaxOccurence(int maxOccurence) {
-		this.maxOccurence = maxOccurence;
+	private AmbOptions options;
+	
+	Picker(AmbOptions options){
+		this.options = options;
 	}
 	
 	public Ambassador pick() {
@@ -19,18 +17,18 @@ public class Picker {
 		return selectedOption;
 	}
 
-	public ArrayList<Ambassador[]> collate(){
-		ArrayList<Ambassador[]> pickedPairs = new ArrayList<Ambassador[]>();
+	public ArrangedPairs collate(){
+		ArrangedPairs pickedPairs = new ArrangedPairs();
 		while(!options.isEmpty()) {
-			Ambassador[] newPair = pickPair();
+			Pair newPair = pickPair();
 			pickedPairs.add(newPair);
 		}
 		return pickedPairs;
 	}
 	
-	private Ambassador[] pickPair() {
+	private Pair pickPair() {
 		Ambassador pairOptionA, pairOptionB;
-		Ambassador[] pair = new Ambassador[2];
+		Pair pair = new Pair();
 		do {
 			pairOptionA = pick();
 			pairOptionB = pick();
@@ -38,12 +36,12 @@ public class Picker {
 		while(pairOptionA == pairOptionB);
 		pairOptionA.increaseNoOfUse();
 		pairOptionB.increaseNoOfUse();
-		pair[0] = pairOptionA;
-		pair[1] = pairOptionB;
-		if(pairOptionA.getNoOfUse() >= maxOccurence) {
+		pair.setFirstAmb(pairOptionA.getId());
+		pair.setSecondAmb(pairOptionB.getId());
+		if(pairOptionA.getNoOfUse() >= options.getMaxOccurence()) {
 			options.remove(pairOptionA);
 		}
-		if(pairOptionB.getNoOfUse() >= maxOccurence) {
+		if(pairOptionB.getNoOfUse() >= options.getMaxOccurence()) {
 			options.remove(pairOptionB);
 		}
 		return pair;
